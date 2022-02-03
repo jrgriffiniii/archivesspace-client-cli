@@ -1,5 +1,4 @@
 require 'archivesspace/client'
-require 'pry-byebug'
 
 class Aspace < Thor
   desc "get_resource_marc21_xml", "request an XML representation of resource metadata"
@@ -7,7 +6,8 @@ class Aspace < Thor
     client.login
 
     response = client.get("/repositories/4/resources/marc21/2065.xml")
-    say(response.body)
+    marc_document = Nokogiri::XML(response.body)
+    say(marc_document.to_xml)
   end
 
   no_tasks do
